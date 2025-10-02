@@ -28,6 +28,7 @@ import {
 } from '@mui/icons-material';
 import { format } from 'date-fns';
 import api from '../services/api';
+import Chatbot from '../components/Chatbot';
 
 const EventDetails = () => {
   const { eventId } = useParams();
@@ -37,6 +38,7 @@ const EventDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [generating, setGenerating] = useState(false);
+  const [chatOpen, setChatOpen] = useState(false);
 
   const event = location.state?.event;
 
@@ -289,6 +291,18 @@ const EventDetails = () => {
           </Grid>
         </Grid>
       )}
+
+      {/* Chatbot */}
+      <Chatbot
+        eventId={eventId}
+        context={{
+          personName: report?.extractedInfo?.personName,
+          companyName: report?.extractedInfo?.companyName,
+          eventSummary: event?.summary
+        }}
+        open={chatOpen}
+        onToggle={() => setChatOpen(!chatOpen)}
+      />
     </Box>
   );
 };

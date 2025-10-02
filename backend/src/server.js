@@ -12,6 +12,7 @@ import mongoose from "mongoose";
 import authRoutes from "./routes/auth.js";
 import calendarRoutes from "./routes/calendar.js";
 import reportRoutes from "./routes/reports.js";
+import chatRoutes from "./routes/chat.js";
 import "./config/passport.js";
 
 const app = express();
@@ -51,6 +52,7 @@ app.use(passport.session());
 app.use("/auth", authRoutes);
 app.use("/api/calendar", calendarRoutes);
 app.use("/api/reports", reportRoutes);
+app.use("/api/chat", chatRoutes);
 
 // Health check endpoint
 app.get("/health", (req, res) => {

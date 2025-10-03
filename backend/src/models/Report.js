@@ -25,7 +25,7 @@ const reportSchema = new mongoose.Schema(
     },
     personIntelligence: {
       jobTitle: String,
-      background: String,
+      background: mongoose.Schema.Types.Mixed,
       recentNews: [String],
       linkedInProfile: String,
       source: String,
@@ -33,7 +33,7 @@ const reportSchema = new mongoose.Schema(
     companyIntelligence: {
       description: String,
       industry: String,
-      size: String,
+      size: mongoose.Schema.Types.Mixed,
       recentNews: [String],
       website: String,
       source: String,

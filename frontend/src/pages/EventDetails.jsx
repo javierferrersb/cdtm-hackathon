@@ -30,6 +30,59 @@ import { format } from 'date-fns';
 import api from '../services/api';
 import Chatbot from '../components/Chatbot';
 
+// Helper function to format background information
+const formatBackgroundInfo = (background) => {
+  if (!background) return null;
+  
+  // If it's a string, return as is
+  if (typeof background === 'string') {
+    return background;
+  }
+  
+  // If it's an object, format it nicely
+  if (typeof background === 'object') {
+    const { fullName, dateOfBirth, placeOfBirth, education, earlyCareer } = background;
+    let formatted = [];
+    
+    if (fullName) formatted.push(`Full Name: ${fullName}`);
+    if (dateOfBirth) formatted.push(`Date of Birth: ${dateOfBirth}`);
+    if (placeOfBirth) formatted.push(`Place of Birth: ${placeOfBirth}`);
+    if (earlyCareer) formatted.push(`Early Career: ${earlyCareer}`);
+    if (education && Array.isArray(education)) {
+      const educationText = education.map(edu => `${edu.degree} from ${edu.institution}`).join(', ');
+      formatted.push(`Education: ${educationText}`);
+    }
+    
+    return formatted.join('. ');
+  }
+  
+  return 'No background information available';
+};
+
+// Helper function to format company size information
+const formatCompanySize = (size) => {
+  if (!size) return null;
+  
+  // If it's a string, return as is
+  if (typeof size === 'string') {
+    return size;
+  }
+  
+  // If it's an object, format it nicely
+  if (typeof size === 'object') {
+    const { employees, stores, revenue } = size;
+    let formatted = [];
+    
+    if (employees) formatted.push(`${employees.toLocaleString()} employees`);
+    if (stores) formatted.push(`${stores.toLocaleString()} stores`);
+    if (revenue) formatted.push(`Revenue: ${revenue}`);
+    
+    return formatted.join(', ');
+  }
+  
+  return 'Not specified';
+};
+
 const EventDetails = () => {
   const { eventId } = useParams();
   const location = useLocation();
@@ -189,7 +242,7 @@ const EventDetails = () => {
                     Background
                   </Typography>
                   <Typography variant="body2">
-                    {report.personIntelligence?.background || 'No background information available'}
+                    {formatBackgroundInfo(report.personIntelligence?.background) || 'No background information available'}
                   </Typography>
                 </Box>
 
@@ -230,6 +283,15 @@ const EventDetails = () => {
                   </Typography>
                   <Typography variant="body1" sx={{ fontWeight: 500 }}>
                     {report.companyIntelligence?.industry || 'Not specified'}
+                  </Typography>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="subtitle2" color="text.secondary" gutterBottom>
+                    Company Size
+                  </Typography>
+                  <Typography variant="body2">
+                    {formatCompanySize(report.companyIntelligence?.size) || 'Not specified'}
                   </Typography>
                 </Box>
 
